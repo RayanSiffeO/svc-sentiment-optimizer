@@ -56,7 +56,6 @@ from sklearn.tree import DecisionTreeClassifier
 d_tree = DecisionTreeClassifier()
 d_tree.fit(entr_vectorx, entr_y)
 #Bayes
-from sklearn.naive_bayes import GaussianNB
 from sklearn.naive_bayes import MultinomialNB
 mnb = MultinomialNB()
 mnb.fit(entr_vectorx, entr_y)
@@ -129,5 +128,9 @@ svc_grid.fit(entr_vectorx, entr_y)
 print(f"Mejores parámetros: {svc_grid.best_params_}")
 print(f"Mejor score obtenido en validación: {svc_grid.best_score_:.4f}")
 
+#Guardado
+import joblib
+joblib.dump(lr, "models/modelo_sentimientos.pkl")
+joblib.dump(tf, "models/vectorizador.pkl")
 
 
