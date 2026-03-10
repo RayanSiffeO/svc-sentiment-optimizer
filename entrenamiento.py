@@ -5,7 +5,7 @@ from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.feature_extraction.text import TfidfVectorizer
 
 #Lectura y manipulacion de los datos
-df_review = pd.read_csv("Excel/IMDB Dataset.csv")
+df_review = pd.read_csv("C:/Users/RAYANs/Documents/Scripts/Excel/IMDB Dataset.csv")
 #Input(x) - > Comentarios(review)
 #Output(y) - > Sentimientos
 redux = RandomUnderSampler()
@@ -39,7 +39,6 @@ pc_dtm = pd.DataFrame(cv_matrix.toarray(), index = pc['review'].values , columns
 tf = TfidfVectorizer(stop_words='english')
 tf_matrix = tf.fit_transform(pc['text'])
 tf_dtm = pd.DataFrame(tf_matrix.toarray(), index = pc['review'].values , columns = tf.get_feature_names_out() )
-# Nota: Las palabras clave por peso son mas precisas que por cantidad (da importancia a palabras de relleno.)
 
 
 #Transformacion de data string a integers
@@ -57,12 +56,13 @@ from sklearn.tree import DecisionTreeClassifier
 d_tree = DecisionTreeClassifier()
 d_tree.fit(entr_vectorx, entr_y)
 #Bayes
+from sklearn.naive_bayes import GaussianNB
 from sklearn.naive_bayes import MultinomialNB
 mnb = MultinomialNB()
 mnb.fit(entr_vectorx, entr_y)
 # Regresion logistica
 from sklearn.linear_model import LogisticRegression
-lr = LogisticRegression(max_iter=1000)
+lr = LogisticRegression()
 lr.fit(entr_vectorx, entr_y)
 
 #Evaluacion de modelos
@@ -129,8 +129,12 @@ svc_grid.fit(entr_vectorx, entr_y)
 print(f"Mejores parámetros: {svc_grid.best_params_}")
 print(f"Mejor score obtenido en validación: {svc_grid.best_score_:.4f}")
 
-#Guardado
+
+#Guardar
+
 import joblib
+import os
+os.makedirs("models", exist_ok=True)
 joblib.dump(lr, "models/modelo_sentimientos.pkl")
 joblib.dump(tf, "models/vectorizador.pkl")
 
